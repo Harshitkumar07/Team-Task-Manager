@@ -18,9 +18,13 @@ const app = express();
 // Security Middlewares
 app.use(helmet());
 
-// CORS config (allow frontend domain)
+// CORS config (allow all origins dynamically for Vercel deployments)
 app.use(cors({
-  origin: process.env.VITE_API_URL ? process.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    return callback(null, true);
+  },
   credentials: true
 }));
 
