@@ -1,10 +1,10 @@
-# Team Task Manager 🚀
+# Team Task Manager 
 
 A full-stack, production-ready web application built to streamline project management and team collaboration. With a clean interface, robust role-based access control, and dynamic task tracking, Team Task Manager empowers teams to work together efficiently.
 
 ![Team Task Manager Demo](https://via.placeholder.com/1000x500.png?text=Team+Task+Manager)
 
-## ✨ Key Features
+## Key Features
 - **Secure Authentication:** JWT-based user authentication (Signup/Login) with automatic session handling.
 - **Strict Role-Based Access Control (RBAC):**
   - **Admins:** Full control to create projects, invite/remove members, and assign tasks.
@@ -14,14 +14,14 @@ A full-stack, production-ready web application built to streamline project manag
 - **Interactive Dashboard:** High-level metrics for Total, Completed, Pending, and Overdue tasks, complete with clickable navigation.
 - **Optimistic UI:** Instant status and assignment updates without page reloads.
 
-## 🛠️ Technology Stack
+## Technology Stack
 - **Frontend:** React (Vite), Tailwind CSS v4, Lucide Icons, Axios, React Router.
 - **Backend:** Node.js, Express.js.
 - **Database:** MongoDB (Mongoose).
 - **Security:** Helmet, Express Rate Limit, Morgan, Joi Validation, bcrypt.js.
 - **Deployment:** Vercel (Frontend), Railway (Backend).
 
-## 🚀 Local Development Setup
+## Local Development Setup
 
 ### 1. Clone the repository
 ```bash
@@ -61,7 +61,7 @@ Start the frontend development server:
 npm run dev
 ```
 
-## 🌐 Live Deployment Configuration
+## Live Deployment Configuration
 If you're deploying this to production, follow these key environment settings:
 
 - **Backend (Railway):** 
@@ -69,5 +69,5 @@ If you're deploying this to production, follow these key environment settings:
 - **Frontend (Vercel):**
   Add `VITE_API_URL` pointing directly to your live backend domain (e.g., `https://your-backend-url.railway.app/api`).
 
-## 🛡️ License
+## License
 MIT License
