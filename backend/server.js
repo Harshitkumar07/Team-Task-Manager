@@ -48,9 +48,13 @@ app.use('/api/auth', authLimiter, require('./routes/authRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
 
-// Basic route for testing
+// Basic routes for testing
 app.get('/', (req, res) => {
   res.send('Team Task Manager API is running...');
+});
+
+app.get('/api', (req, res) => {
+  res.send('Team Task Manager API Endpoint is active!');
 });
 
 // Error handling middleware

@@ -163,11 +163,14 @@ const getDashboardStats = async (req, res, next) => {
     let matchStage = {};
 
     if (req.user.role === 'admin') {
-      // Admins see stats for all tasks in the system (or projects they own, as per prompt "Admin -> all tasks")
       matchStage = {}; 
     } else {
-      // Members ONLY see tasks assigned to them
-      matchStage = { assignedTo: new mongoose.Types.ObjectId(req.user._id) };
+      // Find all projects where the user is a member
+      const userProjects = await Project.find({ members: req.user._id }).select('_id');
+      const projectIds = userProjects.map(p => p._id);
+      
+      // Members see all tasks in projects they belong to
+      matchStage = { projectId: { $in: projectIds } };
     }
 
     const today = new Date();
@@ -220,7 +223,11 @@ const getAllTasks = async (req, res, next) => {
   try {
     let query = {};
     if (req.user.role !== 'admin') {
-      query.assignedTo = req.user._id;
+      // Find all projects where the user is a member
+      const userProjects = await Project.find({ members: req.user._id }).select('_id');
+      const projectIds = userProjects.map(p => p._id);
+      
+      query.projectId = { $in: projectIds };
     }
 
     if (req.query.status) {

@@ -2,8 +2,6 @@
 
 A full-stack, production-ready web application built to streamline project management and team collaboration. With a clean interface, robust role-based access control, and dynamic task tracking, Team Task Manager empowers teams to work together efficiently.
 
-![Team Task Manager Demo](https://via.placeholder.com/1000x500.png?text=Team+Task+Manager)
-
 ## Key Features
 - **Secure Authentication:** JWT-based user authentication (Signup/Login) with automatic session handling.
 - **Strict Role-Based Access Control (RBAC):**
