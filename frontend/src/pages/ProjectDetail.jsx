@@ -62,7 +62,21 @@ const ProjectDetail = () => {
       await api.put(`/tasks/${taskId}`, { status: newStatus });
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to update task status');
-      // Revert if failed
+      fetchProjectAndTasks();
+    }
+  };
+
+  const handleAssigneeChange = async (taskId, newAssigneeId) => {
+    // Optimistic UI Update
+    const member = project.members.find(m => m._id === newAssigneeId);
+    setTasks(prevTasks => prevTasks.map(task => 
+      task._id === taskId ? { ...task, assignedTo: member || null } : task
+    ));
+
+    try {
+      await api.put(`/tasks/${taskId}`, { assignedTo: newAssigneeId || null });
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update task assignee');
       fetchProjectAndTasks();
     }
   };
@@ -215,19 +229,36 @@ const ProjectDetail = () => {
                   </div>
                   
                   {/* Status update controls */}
-                  {((user?.role === 'admin') || (user?.role === 'member' && task.assignedTo?._id === user?._id)) && (
-                    <div className="flex items-center gap-2 mt-4 sm:mt-0">
+                  <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 mt-4 sm:mt-0">
+                    {user?.role === 'admin' && project?.members && (
+                      <select
+                        className="block w-full sm:w-auto text-sm border border-slate-300 rounded-lg py-1.5 pl-3 pr-8 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
+                        value={task.assignedTo?._id || ''}
+                        onChange={(e) => handleAssigneeChange(task._id, e.target.value)}
+                        title="Reassign Task"
+                      >
+                        <option value="">Unassigned</option>
+                        {project.members.map(member => (
+                          <option key={member._id} value={member._id}>
+                            {member.name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+
+                    {((user?.role === 'admin') || (user?.role === 'member' && task.assignedTo?._id === user?._id)) && (
                       <select
                         className="block w-full sm:w-auto text-sm border border-slate-300 rounded-lg py-1.5 pl-3 pr-8 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
                         value={task.status}
                         onChange={(e) => handleStatusChange(task._id, e.target.value)}
+                        title="Change Status"
                       >
                         <option value="todo">To Do</option>
                         <option value="in-progress">In Progress</option>
                         <option value="done">Done</option>
                       </select>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </li>
             ))}
